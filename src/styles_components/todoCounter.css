@@ -1,0 +1,19 @@
+.todo-counter {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #ffffff;
+}
+.title {
+  color: #ffffff;
+  font-style: normal;
+  font-size: 1.6rem;
+}
+.container-counter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
