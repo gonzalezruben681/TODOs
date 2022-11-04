@@ -17,3 +17,6 @@
   align-items: center;
   width: 100%;
 }
+.todoCount--loading {
+  opacity: 25%;
+}

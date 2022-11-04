@@ -24,3 +24,6 @@
   margin-right: 0.5rem;
   color: rgba(129, 129, 129, 1);
 }
+.todoSearch:disabled {
+  opacity: 25%;
+}

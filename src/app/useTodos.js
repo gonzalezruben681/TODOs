@@ -3,13 +3,13 @@ import { useLocalStorage } from './useLocalStorage';
 
 //Archivo para usar React Context
 // Al crear el contexto también podemos pasarle un valor inicial entre los paréntesis
-const TodoContext = React.createContext();
 
 //TodoContext se convierte asi en un Provider y un Consumer del método createContext.
-function TodoProvider(props) {
+function useTodos() {
   const {
     item: todos,
     saveItem: saveTodos,
+    sincronizeItem: sincronizeTodos,
     loading,
     error,
   } = useLocalStorage('TODOS_V1', []);
@@ -61,11 +61,7 @@ function TodoProvider(props) {
   };
 
   // Retornamos nuestro proveedor con nuestro contexto en la etiqueta value, que recibirá a toda nuestra aplicación, por eso necesitamos la prop children
-  return (
-    //Logica de la app
-    <TodoContext.Provider
-      //Dentro del componente App UI
-      value={{
+  return {
         //estados que tu componente va a necesitar usandando value.
         loading,
         error,
@@ -80,10 +76,7 @@ function TodoProvider(props) {
         openModal,
         setOpenModal,
         completeTodoCheckbox,
-      }}
-    >
-      {props.children}
-    </TodoContext.Provider>
-  );
+        sincronizeTodos
+      };
 }
-export { TodoContext, TodoProvider };
+export { useTodos };

@@ -1,7 +1,7 @@
 import React from 'react';
 import './TaskListLoader.css';
 
-const TaskList = () => {
+const TaskListLoading = () => {
   return (
     <div className="task-container">
       <li className="TodoItem-loading">
@@ -14,4 +14,4 @@ const TaskList = () => {
     </div>
   );
 };
-export { TaskList };
+export { TaskListLoading };
