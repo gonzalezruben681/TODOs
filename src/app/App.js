@@ -49,15 +49,7 @@ function App() {
     onLoading={()=> new Array(4).fill().map((item, index) => <TaskListLoading key={index} />)}
     onEmptyTodos={()=><BlankComponent />}
     onEmptySearchResults={(searchText)=> <p>No hay resultados {searchText}</p>}
-    // render ={(todo, index) => (
-    //   <TodoItem
-    //     key={index}
-    //     text={todo.text}
-    //     completed={todo.completed}
-    //     onComplete={() => completeTodo(todo.text)}
-    //     onDelete={() => deleteTodo(todo.text)}
-    //   ></TodoItem>
-    // )}
+    
     >
       {/* patron render functions */}
       {(todo, index) => (
