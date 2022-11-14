@@ -1,30 +1,39 @@
 import React from 'react';
-import { useTodos } from './useTodos.js';
+import './style.css';
+import { BlankComponent } from './Blank.js';
+import { TaskListLoading } from './TaskListLoader.js';
 import { TodoCounter } from '../components/TodoCounter.js';
-import { TodoSearch } from '../components/TodoSearch.js';
 import { TodoItem } from '../components/TodoItem.js';
 import { TodoList } from '../components/TodoList.js';
-import { TaskListLoading } from './TaskListLoader.js';
-import { BlankComponent } from './Blank.js';
-import './style.css';
-import TodoHeader from '../components/TodoHeader.js';
+import { TodoSearch } from '../components/TodoSearch.js';
+import { useTodos } from './useTodos.js';
 import ChangeAlert from '../components/ChangeAlert.js';
+import TodoHeader from '../components/TodoHeader.js';
 function App() {
+  
   const {
-    error,
-    loading,
-    searchedTodos,
+    state,
+    stateUpdaters
+  } = useTodos();
+
+  const {
+    completedTodos,
     completeTodo,
     deleteTodo,
-    totalTodos,
-    completedTodos,
-    searchValue,
-    setSearchValue,
+    error,
+    loading,
     openModal,
+    searchedTodos,
+    searchValue,
+  } = state;
+  
+  const {
     addTodo,
     setOpenModal,
-    sincronizeTodos
-  } = useTodos();
+    setSearchValue,
+    sincronizeTodos,
+    totalTodos,
+  } = stateUpdaters;
 
   return (
     <React.Fragment>

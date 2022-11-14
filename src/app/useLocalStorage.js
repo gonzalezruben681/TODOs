@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
-
+import React from "react";
 //Aqui crearemos una configuracion personalizada de Hooks
 function useLocalStorage(itemName, initialValue) {
-  const [sincronizedItem, setSincronizedItem] = useState(true);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [item, setItem] = useState(initialValue);
+  const [state, dispatch] = React.useReducer(
+    reducer,
+    initialState({ initialValue })
+  );
 
-  useEffect(() => {
+  const { sincronizedItem, loading, error, item } = state;
+
+  // Action creators
+  const onError = (error) =>
+    dispatch({ type: actionTypes.error, payload: error });
+  const onSuccess = (parsedItem) =>
+    dispatch({ type: actionTypes.success, payload: parsedItem });
+  const onSave = (newItem) =>
+    dispatch({ type: actionTypes.save, payload: newItem });
+  const onSincronize = () => dispatch({ type: actionTypes.sincronize });
+
+  React.useEffect(() => {
     setTimeout(() => {
       try {
         // Traemos nuestros TODOs almacenados
@@ -22,31 +32,27 @@ function useLocalStorage(itemName, initialValue) {
           // Si existen TODOs en el localStorage los regresamos como nuestros todos
           parsedItem = JSON.parse(localStorageItem);
         }
-        setItem(parsedItem);
-        setLoading(false);
-        setSincronizedItem(true);
+        onSuccess(parsedItem);
       } catch (error) {
-        setError(error);
+        // Manejamos la tarea dentro de un try/catch por si ocurre algún error
+        onError(error);
       }
-    }, 1000);
+    }, 3000);
   }, [sincronizedItem]);
 
   const saveItem = (newItem) => {
     try {
-      // Manejamos la tarea dentro de un try/catch por si ocurre algún error
-      const stringifiedTodos = JSON.stringify(newItem);
-      localStorage.setItem(itemName, stringifiedTodos);
-      setItem(newItem);
+      const stringifiedItem = JSON.stringify(newItem);
+      localStorage.setItem(itemName, stringifiedItem);
+      onSave(newItem);
     } catch (error) {
-      // En caso de algún error lo guardamos en el estado
-      setError(error);
+      onError(error);
     }
   };
 
   const sincronizeItem = () => {
-    setLoading(true);
-    setSincronizedItem(false);
-  }
+    onSincronize();
+  };
   // Para tener un mejor control de los datos retornados, podemos regresarlos dentro de un objeto
   return {
     item,
@@ -56,4 +62,46 @@ function useLocalStorage(itemName, initialValue) {
     sincronizeItem,
   };
 }
+
+const initialState = ({ initialValue }) => ({
+  sincronizedItem: true,
+  loading: true,
+  error: false,
+  item: initialValue,
+});
+
+const actionTypes = {
+  error: "ERROR",
+  success: "SUCCESS",
+  save: "SAVE",
+  sincronize: "SINCRONIZE",
+};
+
+const reducerObject = (state, payload) => ({
+  [actionTypes.error]: {
+    ...state,
+    error: true,
+  },
+  [actionTypes.success]: {
+    ...state,
+    error: false,
+    sincronizedItem: true,
+    loading: false,
+    item: payload,
+  },
+  [actionTypes.save]: {
+    ...state,
+    item: payload,
+  },
+  [actionTypes.sincronize]: {
+    ...state,
+    sincronizedItem: false,
+    loading: true,
+  },
+});
+
+const reducer = (state, action) => {
+  return reducerObject(state, action.payload)[action.type] || state;
+};
+
 export { useLocalStorage };

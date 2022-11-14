@@ -59,24 +59,29 @@ function useTodos() {
     newTodos.splice(todoIndex, 1);
     saveTodos(newTodos);
   };
+  
+  const state = {
+    loading,
+    error,
+    totalTodos,
+    completedTodos,
+    searchValue,
+    searchedTodos,
+    openModal,
+  }
 
+  const stateUpdaters = {
+    //estados que tu componente va a necesitar usandando value.
+    setSearchValue,
+    addTodo,
+    completeTodo,
+    deleteTodo,
+    setOpenModal,
+    completeTodoCheckbox,
+    sincronizeTodos
+  };
+  
   // Retornamos nuestro proveedor con nuestro contexto en la etiqueta value, que recibirá a toda nuestra aplicación, por eso necesitamos la prop children
-  return {
-        //estados que tu componente va a necesitar usandando value.
-        loading,
-        error,
-        totalTodos,
-        completedTodos,
-        searchValue,
-        setSearchValue,
-        searchedTodos,
-        addTodo,
-        completeTodo,
-        deleteTodo,
-        openModal,
-        setOpenModal,
-        completeTodoCheckbox,
-        sincronizeTodos
-      };
+  return {state, stateUpdaters};
 }
 export { useTodos };
