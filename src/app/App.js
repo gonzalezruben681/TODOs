@@ -18,21 +18,21 @@ function App() {
 
   const {
     completedTodos,
-    completeTodo,
-    deleteTodo,
     error,
     loading,
     openModal,
     searchedTodos,
     searchValue,
+    totalTodos,
   } = state;
   
   const {
+    completeTodo,
     addTodo,
+    deleteTodo,
     setOpenModal,
     setSearchValue,
     sincronizeTodos,
-    totalTodos,
   } = stateUpdaters;
 
   return (

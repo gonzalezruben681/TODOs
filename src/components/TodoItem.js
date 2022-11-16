@@ -5,11 +5,11 @@ export function TodoItem(props) {
   return (
     <div className="task-item-container">
       <label
-        // className={`content-input ${props.completed && 'content-input-active'}`}
-        className={'content-input'}
+        className={`content-input ${props.onComplete && 'content-input-active'}`}
+        // className={'content-input'}
         onClick={props.onComplete}
       >
-        <input type="checkbox" checked={props.completed} readOnly />
+        <input type="checkbox" onChange={props.onComplete}  />
         <i></i>
       </label>
       <div className="body-item-task">
